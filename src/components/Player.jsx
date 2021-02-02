@@ -7,12 +7,6 @@ import PlayerButtons from './PlayerButtons';
 import Volume from './Volume';
 import PlayTime from './PlayTime';
 
-const style = {
-  grid: {
-    position: 'relative',
-  },
-};
-
 const Player = () => {
   const [value, setValue] = React.useState(30);
 
@@ -34,13 +28,7 @@ const Player = () => {
         onChange={handleChange}
         aria-labelledby="continuous-slider"
       />
-      <Grid
-        container
-        spacing={1}
-        alignItems="center"
-        alignContent="flex-start"
-        style={style.grid}
-      >
+      <Grid container spacing={1} alignItems="center" alignContent="flex-start">
         <PlayerButtons />
         <Volume />
         <PlayTime />
