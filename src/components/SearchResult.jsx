@@ -1,6 +1,8 @@
 import React from 'react';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
+import { observer } from 'mobx-react';
+import { runInAction } from 'mobx';
 
 const style = {
   root: {
@@ -14,17 +16,18 @@ const style = {
   },
 };
 
-const SearchResult = () => {
+const SearchResult = observer(({ song }) => {
   return (
     <Paper variant="outlined" style={style.root}>
+      <audio src={'../assets/audio/' + song.src} />
       <Typography variant="subtitle1" gutterBottom style={style.text}>
-        Loboda - Moloko
+        {song.author} - {song.songName}
       </Typography>
       <Typography variant="subtitle1" gutterBottom style={style.text}>
-        03:02
+        {song.durationForDisplay}
       </Typography>
     </Paper>
   );
-};
+});
 
 export default SearchResult;

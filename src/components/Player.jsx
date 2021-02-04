@@ -20,8 +20,8 @@ const Player = () => {
         Loboda - Moloko
       </Typography>
       <audio>
-        <source src="assets/audio/1.mp3" type="audio/mpeg" />
-        <source src="assets/audio/1.ogg" type="audio/ogg" />
+        <source src="assets/audio/LOBODA - Молоко.mp3" type="audio/mpeg" />
+        <p>Ваш браузер не может воспроизвести аудиозапись.</p>
       </audio>
       <Slider
         value={value}
