@@ -3,23 +3,20 @@ import { observer } from 'mobx-react';
 
 import SearchResult from './SearchResult';
 import Search from './Search';
-import { SongsStore } from '../stores/songsStore';
+import { useSongsStore } from '../stores/songsStore';
 
-const store = new SongsStore();
-
-const SearchBlock = observer(() => {
+  const SearchBlock = () => {
+  const store = useSongsStore();
+  
   return (
     <>
-      <Search store={store} />
+      <Search updateFilter={store.updateFilter} filter={store.filter} />
       {store.filteredSongs &&
         store.filteredSongs.map((song) => (
-          <SearchResult
-            key={song.id}
-            song={song}
-          />
+          <SearchResult key={song.id} song={song} />
         ))}
     </>
   );
-});
+};
 
-export default SearchBlock;
+export default observer(SearchBlock);

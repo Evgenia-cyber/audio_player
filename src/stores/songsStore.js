@@ -1,3 +1,4 @@
+import React from 'react';
 import { action, computed, configure, makeObservable, observable } from 'mobx';
 import { SONGS } from './db';
 
@@ -8,10 +9,11 @@ configure({
   observableRequiresReaction: true,
 });
 
-export class SongsStore {
+export default class SongsStore {
   // @observable
   songs = SONGS;
   filter = '';
+  currentSong = this.songs[0];
 
   // @computed
   get songsWithDurationForDisplay() {
@@ -47,9 +49,11 @@ export class SongsStore {
     makeObservable(this, {
       songs: observable,
       filter: observable,
+      currentSong: observable,
       songsWithDurationForDisplay: computed,
       filteredSongs: computed,
       updateFilter: action,
+      setCurrentSong: action,
     });
   }
 
@@ -57,4 +61,24 @@ export class SongsStore {
   updateFilter = (inputText) => {
     this.filter = inputText;
   };
+  setCurrentSong = (song) => {
+    this.currentSong = song;
+  };
 }
+
+/* Store helpers */
+const SongsContext = React.createContext();
+
+export const SongsStoreProvider = ({ children, store }) => {
+  return (
+    <SongsContext.Provider value={store}>{children}</SongsContext.Provider>
+  );
+};
+
+/* Hook to use store in any functional component */
+export const useSongsStore = () => React.useContext(SongsContext);
+
+/* HOC to inject store to any functional or class component */
+export const withSongsStore = (Component) => (props) => {
+  return <Component {...props} store={useSongsStore()} />;
+};
