@@ -3,15 +3,15 @@ import ReactDOM from 'react-dom';
 
 import './index.css';
 import App from './App';
-import SongsStore, { SongsStoreProvider } from './stores/songsStore';
+import RootStore, { RootStoreProvider } from './stores/rootStore';
 
-const store = new SongsStore();
+const store = new RootStore();
 
 ReactDOM.render(
   <React.StrictMode>
-    <SongsStoreProvider store={store}>
+    <RootStoreProvider store={store}>
       <App />
-    </SongsStoreProvider>
+    </RootStoreProvider>
   </React.StrictMode>,
   document.getElementById('root'),
 );

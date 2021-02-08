@@ -2,6 +2,7 @@ import React from 'react';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { observer } from 'mobx-react';
+import { runInAction } from 'mobx';
 
 const style = {
   root: {
@@ -16,9 +17,18 @@ const style = {
   },
 };
 
-const SearchResult = ({ song }) => {
+const SearchResult = ({ song, setCurrentSong }) => {
   const onSongClick = () => {
-    alert(1);
+    runInAction(() => {
+      const currentSong = {
+        id: song.id,
+        src: song.src,
+        author: song.author,
+        songName: song.songName,
+        duration: song.duration,
+      };
+      setCurrentSong(currentSong);
+    });
   };
   return (
     <Paper variant="outlined" style={style.root} onClick={onSongClick}>

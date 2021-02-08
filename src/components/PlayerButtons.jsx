@@ -5,11 +5,11 @@ import PrevButton from './PrevButton';
 import PlayButton from './PlayButton';
 import NextButton from './NextButton';
 
-const PlayerButtons = () => {
+const PlayerButtons = ({onPlayBtnClick}) => {
   return (
     <Grid item>
       <PrevButton />
-      <PlayButton />
+      <PlayButton onPlayBtnClick={onPlayBtnClick}/>
       <NextButton />
     </Grid>
   );
