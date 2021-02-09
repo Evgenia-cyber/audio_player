@@ -19,10 +19,11 @@ const style = {
   },
 };
 
-const Search = ({ updateFilter, filter }) => {
+const Search = ({ updateFilter, filter,setInitialPlayer }) => {
   const inputOnChange = (event) => {
     const inputValue = event.target.value;
     updateFilter(inputValue);
+    setInitialPlayer()
   };
   return (
     <form noValidate autoComplete="off" style={style.root}>

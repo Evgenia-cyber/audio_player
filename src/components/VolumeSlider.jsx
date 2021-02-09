@@ -3,7 +3,7 @@ import Grid from '@material-ui/core/Grid';
 import Slider from '@material-ui/core/Slider';
 
 const VolumeSlider = () => {
-  const [value2, setValue2] = React.useState(30);
+  const [value2, setValue2] = React.useState(0.5);
   const handleChange2 = (event, newValue) => {
     setValue2(newValue);
   };
@@ -14,6 +14,8 @@ const VolumeSlider = () => {
         value={value2}
         onChange={handleChange2}
         aria-labelledby="continuous-slider"
+        min={0}
+        max={1}
       />
     </Grid>
   );

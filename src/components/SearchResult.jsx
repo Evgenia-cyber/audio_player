@@ -17,7 +17,7 @@ const style = {
   },
 };
 
-const SearchResult = ({ song, setCurrentSong }) => {
+const SearchResult = ({ song, setCurrentSong, index }) => {
   const onSongClick = () => {
     runInAction(() => {
       const currentSong = {
@@ -26,6 +26,7 @@ const SearchResult = ({ song, setCurrentSong }) => {
         author: song.author,
         songName: song.songName,
         duration: song.duration,
+        index: index,
       };
       setCurrentSong(currentSong);
     });

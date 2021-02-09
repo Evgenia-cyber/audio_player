@@ -12,7 +12,6 @@ export default class SongsStore {
   // @observable
   songs = SONGS;
   filter = '';
-  // currentSong = this.songs[0];
 
   // @computed
   get songsWithDurationForDisplay() {
@@ -44,7 +43,7 @@ export default class SongsStore {
     );
   }
 
-  constructor() {
+  constructor(rootStore) {
     makeObservable(this, {
       songs: observable,
       filter: observable,
@@ -52,6 +51,7 @@ export default class SongsStore {
       filteredSongs: computed,
       updateFilter: action,
     });
+    this.rootStore = rootStore;
   }
 
   //@action
@@ -59,4 +59,3 @@ export default class SongsStore {
     this.filter = inputText;
   };
 }
-

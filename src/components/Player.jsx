@@ -3,56 +3,90 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Slider from '@material-ui/core/Slider';
 import { observer } from 'mobx-react';
+import { runInAction } from 'mobx';
 
 import PlayerButtons from './PlayerButtons';
 import Volume from './Volume';
 import PlayTime from './PlayTime';
 import { useRootStore } from '../stores/rootStore';
 
-// import url from '../assets/audio/LOBODA.mp3';
-
 const Player = () => {
   const store = useRootStore();
-  const [value, setValue] = React.useState(30);
+
   const songRef = React.createRef();
-  // React.useEffect(() => {
-  //   const audio = songRef.current;
-  //   audio.muted = true;
-  //   audio.play();
-  //   audio.muted = false;
-  // }, [store.currentSong.src]);
+
+  const [isCanPlay, setIsCanPlay] = React.useState(false);
+  const [value, setValue] = React.useState(30);
+
+  React.useEffect(() => {
+    runInAction(() => {
+      if (store.playerStore.isAnotherSong) {
+        songRef.current.load();
+        songRef.current.play();
+        store.playerStore.setIsPlaying(true);
+        store.playerStore.setIsAnotherSong(false);
+      }
+    });
+  }, [store.playerStore, songRef]);
+  React.useEffect(() => {
+    runInAction(() => {
+      if (store.playerStore.isAnotherSongsList) {
+        songRef.current.load();
+        store.playerStore.setIsAnotherSongsList(false);
+      }
+    });
+  }, [store.playerStore, songRef]);
+
   const onPlayBtnClick = () => {
-    console.log(songRef);
     songRef.current.play();
+    store.playerStore.setIsPlaying(true);
+  };
+  const onPauseBtnClick = () => {
+    songRef.current.pause();
+    store.playerStore.setIsPlaying(false);
+  };
+  const onNextBtnClick = () => {
+    runInAction(() => {
+      store.playerStore.setNextSong();
+    });
+  };
+  const onPrevBtnClick = () => {
+    runInAction(() => {
+      store.playerStore.setPrevSong();
+    });
   };
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+  const handleOnCanPlayThrough = () => {
+    setIsCanPlay(true);
+  };
   const handleOnLoadedMetadata = () => {
     console.log('handleOnLoadedMetadata');
+  };
+  const handleOnEnded = () => {
+    store.playerStore.setNextSong();
   };
   const handleOnError = (e) => {
     console.log(e);
   };
-  // debugger;
+
   return (
     <>
       <Typography variant="h5" gutterBottom>
-        {store.playerStore.currentSong.author} - {store.playerStore.currentSong.songName}
+        {store.playerStore.currentSong.author} -{' '}
+        {store.playerStore.currentSong.songName}
       </Typography>
       <audio
         ref={songRef}
+        loop={store.playerStore.isLoop}
+        onCanPlayThrough={handleOnCanPlayThrough}
         onLoadedMetadata={handleOnLoadedMetadata}
         onError={handleOnError}
+        onEnded={handleOnEnded}
       >
-        <source
-          src={store.playerStore.currentSong.src}
-          // src='../assets/audio/LOBODA.mp3'
-          // src="https://mp3uks.ru/mp3/files/loboda-moloko-mp3.mp3"
-          // src={url}
-          type="audio/mpeg"
-        />
+        <source src={store.playerStore.currentSong.src} type="audio/mpeg" />
         <p>Ваш браузер не может воспроизвести аудиозапись.</p>
       </audio>
       <Slider
@@ -61,7 +95,15 @@ const Player = () => {
         aria-labelledby="continuous-slider"
       />
       <Grid container spacing={1} alignItems="center" alignContent="flex-start">
-        <PlayerButtons onPlayBtnClick={onPlayBtnClick} />
+        <PlayerButtons
+          onPlayBtnClick={onPlayBtnClick}
+          isCanPlay={isCanPlay}
+          onPauseBtnClick={onPauseBtnClick}
+          isPlaying={store.playerStore.isPlaying}
+          onNextBtnClick={onNextBtnClick}
+          onPrevBtnClick={onPrevBtnClick}
+          disabled = {store.playerStore.isLoop}
+        />
         <Volume />
         <PlayTime />
       </Grid>
