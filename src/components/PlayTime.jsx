@@ -8,13 +8,13 @@ const style = {
   },
 };
 
-const PlayTime = () => {
+const PlayTime = ({ duration, currentTime }) => {
   const mediaQuery = useMediaQuery('(max-width:470px)');
   return (
     <Grid item style={mediaQuery ? style.root : {}}>
-      <span>03:30</span>
+      <span>{currentTime}</span>
       <span>/</span>
-      <span>03:30</span>
+      <span>{duration}</span>
     </Grid>
   );
 };

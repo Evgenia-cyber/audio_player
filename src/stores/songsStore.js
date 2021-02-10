@@ -1,4 +1,11 @@
-import { action, computed, configure, makeObservable, observable } from 'mobx';
+import {
+  action,
+  computed,
+  configure,
+  makeObservable,
+  observable,
+  runInAction,
+} from 'mobx';
 import { SONGS } from './db';
 
 configure({
@@ -13,19 +20,24 @@ export default class SongsStore {
   songs = SONGS;
   filter = '';
 
+  secondsToTimeDisplay = (duration) => {
+    let minutes = Math.floor(duration / 60);
+    let seconds = Math.floor(duration % 60);
+    if (minutes < 10) {
+      minutes = '0' + minutes;
+    }
+    if (seconds < 10) {
+      seconds = '0' + seconds;
+    }
+    return minutes + ':' + seconds;
+  };
+
   // @computed
   get songsWithDurationForDisplay() {
     return this.songs.map((song) => {
-      const duration = song.duration;
-      let minutes = Math.floor(duration / 60);
-      let seconds = duration % 60;
-      if (minutes < 10) {
-        minutes = '0' + minutes;
-      }
-      if (seconds < 10) {
-        seconds = '0' + seconds;
-      }
-      song.durationForDisplay = minutes + ':' + seconds;
+      runInAction(() => {
+        song.durationForDisplay = this.secondsToTimeDisplay(song.duration);
+      });
       return song;
     });
   }

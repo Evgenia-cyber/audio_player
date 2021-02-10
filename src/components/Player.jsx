@@ -20,12 +20,11 @@ const Player = () => {
   const handleVolumeChange = (event, newValue) => {
     setVolume(newValue);
   };
-  const [value, setValue] = React.useState(30);
+  const [songSliderCurrentTime, setSongSliderCurrentTime] = React.useState(0);
 
   React.useEffect(() => {
     songRef.current.volume = volume / 100;
-    console.log(songRef.current.volume);
-  });
+  }, [songRef, volume]);
   React.useEffect(() => {
     runInAction(() => {
       if (store.playerStore.isAnotherSong) {
@@ -64,14 +63,20 @@ const Player = () => {
     });
   };
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
+  const handleSongSliderCurrentTimeChange = (event, newValue) => {
+    setSongSliderCurrentTime(newValue);
+    store.playerStore.setCurrentSongCurrentTime(newValue);
+    songRef.current.currentTime = newValue;
   };
   const handleOnCanPlayThrough = () => {
     setIsCanPlay(true);
   };
   const handleOnLoadedMetadata = () => {
-    console.log('handleOnLoadedMetadata');
+    store.playerStore.setCurrentSongDuration(songRef.current.duration);
+  };
+  const handleOnTimeUpdate = () => {
+    store.playerStore.setCurrentSongCurrentTime(songRef.current.currentTime);
+    setSongSliderCurrentTime(songRef.current.currentTime);
   };
   const handleOnEnded = () => {
     store.playerStore.setNextSong();
@@ -91,6 +96,7 @@ const Player = () => {
         loop={store.playerStore.isLoop}
         onCanPlayThrough={handleOnCanPlayThrough}
         onLoadedMetadata={handleOnLoadedMetadata}
+        onTimeUpdate={handleOnTimeUpdate}
         onError={handleOnError}
         onEnded={handleOnEnded}
       >
@@ -98,9 +104,12 @@ const Player = () => {
         <p>Ваш браузер не может воспроизвести аудиозапись.</p>
       </audio>
       <Slider
-        value={value}
-        onChange={handleChange}
+        value={songSliderCurrentTime}
+        onChange={handleSongSliderCurrentTimeChange}
         aria-labelledby="continuous-slider"
+        min={0}
+        max={store.playerStore.currentSongDuration}
+        step={0.01}
       />
       <Grid container spacing={1} alignItems="center" alignContent="flex-start">
         <PlayerButtons
@@ -113,7 +122,10 @@ const Player = () => {
           disabled={store.playerStore.isLoop}
         />
         <Volume handleVolumeChange={handleVolumeChange} volume={volume} />
-        <PlayTime />
+        <PlayTime
+          duration={store.playerStore.currentSongDurationForDisplay}
+          currentTime={store.playerStore.currentSongCurrentTimeForDisplay}
+        />
       </Grid>
     </>
   );

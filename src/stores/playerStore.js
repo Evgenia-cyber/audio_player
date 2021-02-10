@@ -1,11 +1,4 @@
-import {
-  action,
-  computed,
-  configure,
-  makeObservable,
-  observable,
-  toJS,
-} from 'mobx';
+import { action, computed, configure, makeObservable, observable } from 'mobx';
 
 configure({
   enforceActions: 'always',
@@ -21,10 +14,22 @@ export default class PlayerStore {
   isAnotherSong = false;
   isAnotherSongsList = false;
   isPlaying = false;
+  currentSongDuration = 0;
+  currentSongCurrentTime = 0;
 
   // @computed
   get isLoop() {
     return this.songs.length === 1 ? true : false;
+  }
+  get currentSongDurationForDisplay() {
+    return this.rootStore.songsStore.secondsToTimeDisplay(
+      this.currentSongDuration,
+    );
+  }
+  get currentSongCurrentTimeForDisplay() {
+    return this.rootStore.songsStore.secondsToTimeDisplay(
+      this.currentSongCurrentTime,
+    );
   }
 
   constructor(rootStore) {
@@ -34,7 +39,11 @@ export default class PlayerStore {
       isAnotherSong: observable,
       isAnotherSongsList: observable,
       isPlaying: observable,
+      currentSongDuration: observable,
+      currentSongCurrentTime: observable,
       isLoop: computed,
+      currentSongDurationForDisplay: computed,
+      currentSongCurrentTimeForDisplay: computed,
       setInitial: action,
       setCurrentSong: action,
       setIsAnotherSong: action,
@@ -42,6 +51,8 @@ export default class PlayerStore {
       setIsPlaying: action,
       setNextSong: action,
       setPrevSong: action,
+      setCurrentSongDuration: action,
+      setCurrentSongCurrentTime: action,
     });
     this.rootStore = rootStore;
     this.setInitial();
@@ -56,8 +67,6 @@ export default class PlayerStore {
     this.currentSong = this.songs[0];
     this.isAnotherSongsList = true;
     this.isPlaying = false;
-    console.log(toJS(this.songs));
-    console.log(toJS(this.currentSong));
   };
   setCurrentSong = (song) => {
     this.currentSong = song;
@@ -71,10 +80,8 @@ export default class PlayerStore {
   };
   setIsPlaying = (boolean) => {
     this.isPlaying = boolean;
-    console.log('action setIsPlaying =', boolean);
   };
   setNextSong = () => {
-    console.log(toJS(this.currentSong));
     if (this.currentSong.index === this.songs.length - 1) {
       this.currentSong = this.songs[0];
     } else {
@@ -82,9 +89,7 @@ export default class PlayerStore {
         (song, index) => index === this.currentSong.index + 1,
       );
     }
-    console.log(toJS(this.songs));
     this.isAnotherSong = true;
-    console.log('action setNextSong');
   };
   setPrevSong = () => {
     if (this.currentSong.index === 0) {
@@ -96,5 +101,11 @@ export default class PlayerStore {
       );
     }
     this.isAnotherSong = true;
+  };
+  setCurrentSongDuration = (duration) => {
+    this.currentSongDuration = duration;
+  };
+  setCurrentSongCurrentTime = (currentTime) => {
+    this.currentSongCurrentTime = currentTime;
   };
 }
