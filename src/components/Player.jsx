@@ -29,7 +29,9 @@ const Player = () => {
     runInAction(() => {
       if (store.playerStore.isAnotherSong) {
         songRef.current.load();
-        songRef.current.play();
+        songRef.current.play().catch((e) => {
+          console.log(e); /* error handler (for firefox)*/
+        });
         store.playerStore.setIsPlaying(true);
         store.playerStore.setIsAnotherSong(false);
       }
@@ -45,7 +47,9 @@ const Player = () => {
   }, [store.playerStore, songRef]);
 
   const onPlayBtnClick = () => {
-    songRef.current.play();
+    songRef.current.play().catch((e) => {
+      console.log(e); /* error handler (for firefox)*/
+    });
     store.playerStore.setIsPlaying(true);
   };
   const onPauseBtnClick = () => {
@@ -82,7 +86,9 @@ const Player = () => {
     store.playerStore.setNextSong();
   };
   const handleOnError = (e) => {
+    console.error('handleOnError in <audio/> in Player.jsx');
     console.log(e);
+    alert('This song is not available! Select another song.');
   };
 
   return (
