@@ -1,8 +1,8 @@
 import React from 'react';
 import IconButton from '@material-ui/core/IconButton';
-import StopIcon from '@material-ui/icons/Stop';
+import PauseIcon from '@material-ui/icons/Pause';
 
-const StopButton = ({ onPauseBtnClick }) => {
+const PauseButton = ({ onPauseBtnClick }) => {
   return (
     <IconButton
       color="primary"
@@ -10,9 +10,9 @@ const StopButton = ({ onPauseBtnClick }) => {
       component="span"
       onClick={onPauseBtnClick}
     >
-      <StopIcon />
+      <PauseIcon />
     </IconButton>
   );
 };
 
-export default StopButton;
+export default PauseButton;

@@ -16,8 +16,16 @@ const Player = () => {
   const songRef = React.createRef();
 
   const [isCanPlay, setIsCanPlay] = React.useState(false);
+  const [volume, setVolume] = React.useState(50);
+  const handleVolumeChange = (event, newValue) => {
+    setVolume(newValue);
+  };
   const [value, setValue] = React.useState(30);
 
+  React.useEffect(() => {
+    songRef.current.volume = volume / 100;
+    console.log(songRef.current.volume);
+  });
   React.useEffect(() => {
     runInAction(() => {
       if (store.playerStore.isAnotherSong) {
@@ -102,9 +110,9 @@ const Player = () => {
           isPlaying={store.playerStore.isPlaying}
           onNextBtnClick={onNextBtnClick}
           onPrevBtnClick={onPrevBtnClick}
-          disabled = {store.playerStore.isLoop}
+          disabled={store.playerStore.isLoop}
         />
-        <Volume />
+        <Volume handleVolumeChange={handleVolumeChange} volume={volume} />
         <PlayTime />
       </Grid>
     </>

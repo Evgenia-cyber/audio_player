@@ -4,7 +4,7 @@ import IconButton from '@material-ui/core/IconButton';
 import VolumeDown from '@material-ui/icons/VolumeDown';
 import VolumeOffIcon from '@material-ui/icons/VolumeOff';
 
-const VolumeButton = ({ toggleVisibleOnClick }) => {
+const VolumeButton = ({ toggleVisibleOnClick, volume }) => {
   return (
     <Grid item>
       <IconButton
@@ -13,8 +13,7 @@ const VolumeButton = ({ toggleVisibleOnClick }) => {
         aria-label="upload picture"
         component="span"
       >
-        <VolumeDown />
-        {/* <VolumeOff/> */}
+        {volume === 0 ? <VolumeOffIcon /> : <VolumeDown />}
       </IconButton>
     </Grid>
   );

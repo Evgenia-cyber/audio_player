@@ -4,7 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import PrevButton from './PrevButton';
 import PlayButton from './PlayButton';
 import NextButton from './NextButton';
-import StopButton from './StopButton';
+import PauseButton from './PauseButton';
 
 const PlayerButtons = ({
   onPlayBtnClick,
@@ -19,7 +19,7 @@ const PlayerButtons = ({
     <Grid item>
       <PrevButton onPrevBtnClick={onPrevBtnClick} disabled={disabled}/>
       {isPlaying ? (
-        <StopButton onPauseBtnClick={onPauseBtnClick} />
+        <PauseButton onPauseBtnClick={onPauseBtnClick} />
       ) : (
         <PlayButton onPlayBtnClick={onPlayBtnClick} isCanPlay={isCanPlay} />
       )}
