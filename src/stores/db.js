@@ -29,20 +29,27 @@ export const SONGS = [
     songName: 'Любимка',
     duration: 219,
   },
-  
+
   {
     id: 4,
-    src: '../assets/audio/shakira.mp3',
+    src: '../../public/audio/shakira.mp3',
     author: 'Shakira',
     songName: 'La tortura',
     duration: 211,
   },
   {
     id: 5,
-    src: '../assets/audio/whenever.mp3',
+    src: '../../public/audio/whenever.mp3',
     author: 'Shakira',
     songName: 'Whenever',
     duration: 150,
   },
-  
+  {
+    id: 6,
+    src:
+      'https://cdn3.sefon.pro/prev/2IPOExs8B9BQwrjbJGa_uQ/1613176188/167/%D0%9F%D0%B8%D1%86%D1%86%D0%B0%20-%20%D0%A3%D0%BB%D1%8B%D0%B1%D0%BA%D0%B0%20%28192kbps%29.mp3',
+    author: 'Пицца',
+    songName: 'Улыбка',
+    duration: 184,
+  },
 ];
