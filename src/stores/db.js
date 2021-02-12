@@ -32,14 +32,16 @@ export const SONGS = [
 
   {
     id: 4,
-    src: '../../public/audio/shakira.mp3',
+    src:
+      'https://cdn1.sefon.pro/prev/QLHhPPnaZFc_d3SATcTsEA/1613182432/1/Shakira%20%26%20Alejandro%20Sanz%20-%20La%20Tortura%20%28192kbps%29.mp3',
     author: 'Shakira',
     songName: 'La tortura',
     duration: 211,
   },
   {
     id: 5,
-    src: '../../public/audio/whenever.mp3',
+    src:
+      'https://cdn8.sefon.pro/prev/v5OCJbiieU1Ss-Bgxwn-cA/1613182362/1/Shakira%20-%20Whenever%20Wherever%20%28192kbps%29.mp3',
     author: 'Shakira',
     songName: 'Whenever',
     duration: 150,
