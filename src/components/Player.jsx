@@ -87,7 +87,7 @@ const Player = () => {
     console.log(e);
     alert('This song is not available! Select another song.');
   };
-
+ 
   return (
     <>
       <Typography variant="h5" gutterBottom>
@@ -119,10 +119,11 @@ const Player = () => {
           onPlayBtnClick={onPlayBtnClick}
           isCanPlay={isCanPlay}
           onPauseBtnClick={onPauseBtnClick}
-          isPlaying={store.playerStore.isPlaying}
+          // isPlaying={store.playerStore.isPlaying}
           onNextBtnClick={onNextBtnClick}
           onPrevBtnClick={onPrevBtnClick}
-          disabled={store.playerStore.isLoop}
+          // disabled={store.playerStore.isLoop}
+          store={store}
         />
         <Volume handleVolumeChange={handleVolumeChange} volume={volume} />
         <PlayTime
