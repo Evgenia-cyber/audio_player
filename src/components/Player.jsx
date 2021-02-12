@@ -20,7 +20,6 @@ const Player = () => {
   const handleVolumeChange = (event, newValue) => {
     setVolume(newValue);
   };
-  const [songSliderCurrentTime, setSongSliderCurrentTime] = React.useState(0);
 
   React.useEffect(() => {
     songRef.current.volume = volume / 100;
@@ -68,7 +67,6 @@ const Player = () => {
   };
 
   const handleSongSliderCurrentTimeChange = (event, newValue) => {
-    setSongSliderCurrentTime(newValue);
     store.playerStore.setCurrentSongCurrentTime(newValue);
     songRef.current.currentTime = newValue;
   };
@@ -80,7 +78,6 @@ const Player = () => {
   };
   const handleOnTimeUpdate = () => {
     store.playerStore.setCurrentSongCurrentTime(songRef.current.currentTime);
-    setSongSliderCurrentTime(songRef.current.currentTime);
   };
   const handleOnEnded = () => {
     store.playerStore.setNextSong();
@@ -110,7 +107,7 @@ const Player = () => {
         <p>Ваш браузер не может воспроизвести аудиозапись.</p>
       </audio>
       <Slider
-        value={songSliderCurrentTime}
+        value={store.playerStore.currentSongCurrentTime}
         onChange={handleSongSliderCurrentTimeChange}
         aria-labelledby="continuous-slider"
         min={0}
