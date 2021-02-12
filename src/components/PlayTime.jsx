@@ -1,6 +1,7 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { observer } from 'mobx-react';
 
 const style = {
   root: {
@@ -8,15 +9,15 @@ const style = {
   },
 };
 
-const PlayTime = ({ duration, currentTime }) => {
+const PlayTime = ({ store }) => {
   const mediaQuery = useMediaQuery('(max-width:470px)');
   return (
     <Grid item style={mediaQuery ? style.root : {}}>
-      <span>{currentTime}</span>
+      <span>{store.playerStore.currentSongCurrentTimeForDisplay}</span>
       <span>/</span>
-      <span>{duration}</span>
+      <span>{store.playerStore.currentSongDurationForDisplay}</span>
     </Grid>
   );
 };
 
-export default PlayTime;
+export default observer(PlayTime);
